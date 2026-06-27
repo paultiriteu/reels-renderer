@@ -41,5 +41,11 @@ export async function renderReel(
     codec: "h264",
     outputLocation: outputPath,
     inputProps: script,
+    chromiumOptions: {
+      disableWebSecurity: true,
+      gl: "angle",
+      userAgent: "Mozilla/5.0",
+    },
+    concurrency: 1,
   });
 }
