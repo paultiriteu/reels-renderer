@@ -6,25 +6,25 @@ import { QuoteCard } from "./templates/QuoteCard";
 import { StoryArc } from "./templates/StoryArc";
 import { GridReveal } from "./templates/GridReveal";
 
-export const Root: React.FC = () => {
-  const defaultProps = {
-    hook: "Românii pierd 2000 lei lunar fără să știe",
-    points: [
-      "Abonamentele neutilizate costă 150 lei/lună",
-      "Mâncatul în oraș de 3x/săptămână = 1200 lei pierdute",
-      "Taxe bancare inutile: 650 lei/an",
-    ],
-    cta: "Salvează și verifică astăzi!",
-    caption: "Caption aici",
-    hashtags: "#finantepersonale #bani",
-    topic_summary: "Cheltuieli ascunse",
-  };
+const defaultProps = {
+  hook: "Românii pierd 2000 lei lunar fără să știe",
+  points: [
+    "Abonamentele neutilizate costă 150 lei/lună",
+    "Mâncatul în oraș de 3x/săptămână = 1200 lei pierdute",
+    "Taxe bancare inutile: 650 lei/an",
+  ],
+  cta: "Salvează și verifică astăzi!",
+  caption: "Caption aici",
+  hashtags: "#finantepersonale #bani",
+  topic_summary: "Cheltuieli ascunse",
+};
 
+export const Root: React.FC = () => {
   return (
     <>
       <Composition
         id="KineticText"
-        component={KineticText}
+        component={KineticText as any}
         durationInFrames={450}
         fps={30}
         width={1080}
@@ -33,7 +33,7 @@ export const Root: React.FC = () => {
       />
       <Composition
         id="SplitScreen"
-        component={SplitScreen}
+        component={SplitScreen as any}
         durationInFrames={450}
         fps={30}
         width={1080}
@@ -42,7 +42,7 @@ export const Root: React.FC = () => {
       />
       <Composition
         id="CountdownReveal"
-        component={CountdownReveal}
+        component={CountdownReveal as any}
         durationInFrames={450}
         fps={30}
         width={1080}
@@ -51,7 +51,7 @@ export const Root: React.FC = () => {
       />
       <Composition
         id="QuoteCard"
-        component={QuoteCard}
+        component={QuoteCard as any}
         durationInFrames={450}
         fps={30}
         width={1080}
@@ -60,7 +60,7 @@ export const Root: React.FC = () => {
       />
       <Composition
         id="StoryArc"
-        component={StoryArc}
+        component={StoryArc as any}
         durationInFrames={450}
         fps={30}
         width={1080}
@@ -69,7 +69,7 @@ export const Root: React.FC = () => {
       />
       <Composition
         id="GridReveal"
-        component={GridReveal}
+        component={GridReveal as any}
         durationInFrames={450}
         fps={30}
         width={1080}
