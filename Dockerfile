@@ -26,7 +26,7 @@ ENV REMOTION_CHROME_FLAGS="--no-sandbox --disable-setuid-sandbox"
 
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 COPY . .
 RUN npm run build
 
