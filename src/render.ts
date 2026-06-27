@@ -43,9 +43,10 @@ export async function renderReel(
     inputProps: script,
     chromiumOptions: {
       disableWebSecurity: true,
-      gl: "angle",
+      gl: "swiftshader",
       userAgent: "Mozilla/5.0",
     },
     concurrency: 1,
+    timeoutInMilliseconds: 120000,
   });
 }
