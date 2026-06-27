@@ -23,6 +23,11 @@ app.post("/render", async (req, res) => {
     return res.status(400).json({ error: "Missing templateId or script" });
   }
 
+  // Split pipe-separated points string into array
+  if (typeof script.points === "string") {
+    script.points = (script.points as string).split("|");
+  }
+
   console.log(`[render] ${templateId}: "${script.hook}"`);
 
   try {
