@@ -3,7 +3,7 @@ import { randomUUID } from "crypto";
 import path from "path";
 import fs from "fs";
 import os from "os";
-import { renderReel } from "./render.js";
+import { renderReel } from "./render";
 
 const app = express();
 app.use(express.json());
