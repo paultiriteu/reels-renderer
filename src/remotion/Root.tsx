@@ -1,3 +1,4 @@
+import React from "react";
 import { Composition } from "remotion";
 import { KineticText } from "./templates/KineticText";
 import { SplitScreen } from "./templates/SplitScreen";
@@ -22,60 +23,12 @@ const defaultProps = {
 export const Root: React.FC = () => {
   return (
     <>
-      <Composition
-        id="KineticText"
-        component={KineticText as any}
-        durationInFrames={450}
-        fps={30}
-        width={1080}
-        height={1920}
-        defaultProps={defaultProps}
-      />
-      <Composition
-        id="SplitScreen"
-        component={SplitScreen as any}
-        durationInFrames={450}
-        fps={30}
-        width={1080}
-        height={1920}
-        defaultProps={defaultProps}
-      />
-      <Composition
-        id="CountdownReveal"
-        component={CountdownReveal as any}
-        durationInFrames={450}
-        fps={30}
-        width={1080}
-        height={1920}
-        defaultProps={defaultProps}
-      />
-      <Composition
-        id="QuoteCard"
-        component={QuoteCard as any}
-        durationInFrames={450}
-        fps={30}
-        width={1080}
-        height={1920}
-        defaultProps={defaultProps}
-      />
-      <Composition
-        id="StoryArc"
-        component={StoryArc as any}
-        durationInFrames={450}
-        fps={30}
-        width={1080}
-        height={1920}
-        defaultProps={defaultProps}
-      />
-      <Composition
-        id="GridReveal"
-        component={GridReveal as any}
-        durationInFrames={450}
-        fps={30}
-        width={1080}
-        height={1920}
-        defaultProps={defaultProps}
-      />
+      <Composition id="KineticText" component={KineticText as any} durationInFrames={450} fps={30} width={1080} height={1920} defaultProps={defaultProps} />
+      <Composition id="SplitScreen" component={SplitScreen as any} durationInFrames={450} fps={30} width={1080} height={1920} defaultProps={defaultProps} />
+      <Composition id="CountdownReveal" component={CountdownReveal as any} durationInFrames={450} fps={30} width={1080} height={1920} defaultProps={defaultProps} />
+      <Composition id="QuoteCard" component={QuoteCard as any} durationInFrames={450} fps={30} width={1080} height={1920} defaultProps={defaultProps} />
+      <Composition id="StoryArc" component={StoryArc as any} durationInFrames={450} fps={30} width={1080} height={1920} defaultProps={defaultProps} />
+      <Composition id="GridReveal" component={GridReveal as any} durationInFrames={450} fps={30} width={1080} height={1920} defaultProps={defaultProps} />
     </>
   );
 };
