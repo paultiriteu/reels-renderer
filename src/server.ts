@@ -5,6 +5,11 @@ import fs from "fs";
 import os from "os";
 import { renderReel } from "./render";
 
+process.on("uncaughtException", (err: any) => {
+  if (err.code === "EPIPE") return;
+  console.error("Uncaught exception:", err);
+});
+
 const app = express();
 app.use(express.json());
 
@@ -23,7 +28,6 @@ app.post("/render", async (req, res) => {
     return res.status(400).json({ error: "Missing templateId or script" });
   }
 
-  // Split pipe-separated points string into array
   if (typeof script.points === "string") {
     script.points = (script.points as string).split("|");
   }
