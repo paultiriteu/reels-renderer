@@ -25,6 +25,7 @@ export async function renderReel(
     console.log("[bundle] Bundling Remotion compositions (once)...");
     bundleCache = await bundle({
       entryPoint: path.resolve("./src/remotion/index.ts"),
+      webpackOverride: (config) => config,
     });
     console.log("[bundle] Done.");
   }
