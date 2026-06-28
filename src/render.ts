@@ -42,14 +42,18 @@ export async function renderReel(
     codec: "h264",
     outputLocation: outputPath,
     inputProps: script,
+    browserExecutable: "/usr/bin/chromium",
     chromiumOptions: {
       disableWebSecurity: true,
-      gl: "swiftshader",
+      gl: "egl",
       userAgent: "Mozilla/5.0",
       ignoreCertificateErrors: true,
       headless: true,
     },
     concurrency: 1,
     timeoutInMilliseconds: 120000,
+    onBrowserLog: (log) => {
+      console.log(`[browser] ${log.type}: ${log.text}`);
+    },
   });
 }
