@@ -44,7 +44,7 @@ export async function renderReel(
     inputProps: script,
     chromiumOptions: {
       disableWebSecurity: true,
-      gl: "angle",
+      gl: "swiftshader",
       userAgent: "Mozilla/5.0",
       ignoreCertificateErrors: true,
       headless: true,
