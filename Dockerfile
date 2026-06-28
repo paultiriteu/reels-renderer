@@ -11,6 +11,9 @@ RUN apt-get update && apt-get install -y \
     libdbus-1-3 \
     libdrm2 \
     libgbm1 \
+    libgl1 \
+    libegl1 \
+    libegl-mesa0 \
     libgtk-3-0 \
     libnspr4 \
     libnss3 \
@@ -22,7 +25,7 @@ RUN apt-get update && apt-get install -y \
   && rm -rf /var/lib/apt/lists/*
 
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
-ENV REMOTION_CHROME_FLAGS="--no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage --no-first-run"
+ENV REMOTION_CHROME_FLAGS="--no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage --no-first-run --use-gl=egl"
 
 WORKDIR /app
 COPY package*.json ./
