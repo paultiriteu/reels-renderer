@@ -26,7 +26,6 @@ export async function renderReel(
   const compositionId = TEMPLATE_MAP[templateId];
   if (!compositionId) throw new Error(`Unknown template: ${templateId}`);
 
-  // Download and cache Remotion's bundled Chrome on first run
   if (!browserReady) {
     console.log("[browser] Ensuring Remotion's Chrome is installed...");
     await ensureBrowser();
@@ -60,7 +59,21 @@ export async function renderReel(
       headless: true,
     },
     concurrency: 1,
-    timeoutInMilliseconds: 120000,
+    timeoutInMilliseconds: 180000,
+    // Limit FFmpeg threads to prevent OOM in containers
+    ffmpegOverride: ({ args }) => {
+      const newArgs = [...args];
+      // Find and limit threads
+      const threadIdx = newArgs.indexOf("-threads");
+      if (threadIdx >= 0) {
+        newArgs[threadIdx + 1] = "2";
+      } else {
+        newArgs.unshift("-threads", "2");
+      }
+      return newArgs;
+    },
+    // Limit memory usage for OffthreadVideo cache
+    offthreadVideoCacheSizeInBytes: 256 * 1024 * 1024,
     onBrowserLog: (log) => {
       console.log(`[browser-${log.type}] ${log.text}`);
     },
