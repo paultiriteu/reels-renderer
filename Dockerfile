@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y \
   && rm -rf /var/lib/apt/lists/*
 
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
-ENV REMOTION_CHROME_FLAGS="--no-sandbox --disable-setuid-sandbox"
+ENV REMOTION_CHROME_FLAGS="--no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage --disable-gpu --no-first-run"
 
 WORKDIR /app
 COPY package*.json ./
