@@ -1,5 +1,9 @@
 import { bundle } from "@remotion/bundler";
-import { renderMedia, selectComposition } from "@remotion/renderer";
+import {
+  renderMedia,
+  selectComposition,
+  ensureBrowser,
+} from "@remotion/renderer";
 import path from "path";
 
 const TEMPLATE_MAP: Record<string, string> = {
@@ -12,6 +16,7 @@ const TEMPLATE_MAP: Record<string, string> = {
 };
 
 let bundleCache: string | null = null;
+let browserReady = false;
 
 export async function renderReel(
   templateId: string,
@@ -20,6 +25,14 @@ export async function renderReel(
 ): Promise<void> {
   const compositionId = TEMPLATE_MAP[templateId];
   if (!compositionId) throw new Error(`Unknown template: ${templateId}`);
+
+  // Download and cache Remotion's bundled Chrome on first run
+  if (!browserReady) {
+    console.log("[browser] Ensuring Remotion's Chrome is installed...");
+    await ensureBrowser();
+    browserReady = true;
+    console.log("[browser] Ready.");
+  }
 
   if (!bundleCache) {
     console.log("[bundle] Bundling Remotion compositions (once)...");
@@ -42,18 +55,14 @@ export async function renderReel(
     codec: "h264",
     outputLocation: outputPath,
     inputProps: script,
-    browserExecutable: "/usr/bin/chromium",
     chromiumOptions: {
-      disableWebSecurity: true,
-      gl: "egl",
-      userAgent: "Mozilla/5.0",
-      ignoreCertificateErrors: true,
+      gl: "swangle",
       headless: true,
     },
     concurrency: 1,
     timeoutInMilliseconds: 120000,
     onBrowserLog: (log) => {
-      console.log(`[browser] ${log.type}: ${log.text}`);
+      console.log(`[browser-${log.type}] ${log.text}`);
     },
   });
 }
