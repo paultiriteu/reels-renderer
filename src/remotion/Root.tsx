@@ -6,6 +6,17 @@ import { CountdownReveal } from "./templates/CountdownReveal";
 import { QuoteCard } from "./templates/QuoteCard";
 import { StoryArc } from "./templates/StoryArc";
 import { GridReveal } from "./templates/GridReveal";
+import { PhotoSlide } from "./templates/PhotoSlide";
+
+const photoDefaultProps = {
+  headline: "Ce este un ETF",
+  lines: [
+    "Un ETF este...",
+    "El cuprinde cele mai bune companii din domeniul...",
+  ],
+  slideNumber: 1,
+  totalSlides: 3,
+};
 
 const defaultProps = {
   hook: "Românii pierd 2000 lei lunar fără să știe",
@@ -29,6 +40,7 @@ export const Root: React.FC = () => {
       <Composition id="QuoteCard" component={QuoteCard as any} durationInFrames={450} fps={30} width={1080} height={1920} defaultProps={defaultProps} />
       <Composition id="StoryArc" component={StoryArc as any} durationInFrames={450} fps={30} width={1080} height={1920} defaultProps={defaultProps} />
       <Composition id="GridReveal" component={GridReveal as any} durationInFrames={450} fps={30} width={1080} height={1920} defaultProps={defaultProps} />
+      <Composition id="PhotoSlide" component={PhotoSlide as any} durationInFrames={1} fps={30} width={1080} height={1350} defaultProps={photoDefaultProps} />
     </>
   );
 };

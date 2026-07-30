@@ -1,6 +1,7 @@
 import { bundle } from "@remotion/bundler";
 import {
   renderMedia,
+  renderStill,
   selectComposition,
   ensureBrowser,
 } from "@remotion/renderer";
@@ -15,17 +16,15 @@ const TEMPLATE_MAP: Record<string, string> = {
   T6: "GridReveal",
 };
 
+// Photo/carousel templates render a single still frame per slide.
+const PHOTO_TEMPLATE_MAP: Record<string, string> = {
+  P1: "PhotoSlide",
+};
+
 let bundleCache: string | null = null;
 let browserReady = false;
 
-export async function renderReel(
-  templateId: string,
-  script: Record<string, unknown>,
-  outputPath: string
-): Promise<void> {
-  const compositionId = TEMPLATE_MAP[templateId];
-  if (!compositionId) throw new Error(`Unknown template: ${templateId}`);
-
+async function ensureReady(): Promise<string> {
   if (!browserReady) {
     console.log("[browser] Ensuring Remotion's Chrome is installed...");
     await ensureBrowser();
@@ -42,15 +41,28 @@ export async function renderReel(
     console.log("[bundle] Done.");
   }
 
+  return bundleCache;
+}
+
+export async function renderReel(
+  templateId: string,
+  script: Record<string, unknown>,
+  outputPath: string
+): Promise<void> {
+  const compositionId = TEMPLATE_MAP[templateId];
+  if (!compositionId) throw new Error(`Unknown template: ${templateId}`);
+
+  const serveUrl = await ensureReady();
+
   const composition = await selectComposition({
-    serveUrl: bundleCache,
+    serveUrl,
     id: compositionId,
     inputProps: script,
   });
 
   await renderMedia({
     composition,
-    serveUrl: bundleCache,
+    serveUrl,
     codec: "h264",
     outputLocation: outputPath,
     inputProps: script,
@@ -74,6 +86,41 @@ export async function renderReel(
     },
     // Limit memory usage for OffthreadVideo cache
     offthreadVideoCacheSizeInBytes: 256 * 1024 * 1024,
+    onBrowserLog: (log) => {
+      console.log(`[browser-${log.type}] ${log.text}`);
+    },
+  });
+}
+
+// Renders a single slide to a still image (PNG).
+export async function renderPhoto(
+  templateId: string,
+  props: Record<string, unknown>,
+  outputPath: string
+): Promise<void> {
+  const compositionId = PHOTO_TEMPLATE_MAP[templateId];
+  if (!compositionId) throw new Error(`Unknown photo template: ${templateId}`);
+
+  const serveUrl = await ensureReady();
+
+  const composition = await selectComposition({
+    serveUrl,
+    id: compositionId,
+    inputProps: props,
+  });
+
+  await renderStill({
+    composition,
+    serveUrl,
+    output: outputPath,
+    inputProps: props,
+    imageFormat: "png",
+    frame: 0,
+    chromiumOptions: {
+      gl: "swangle",
+      headless: true,
+    },
+    timeoutInMilliseconds: 60000,
     onBrowserLog: (log) => {
       console.log(`[browser-${log.type}] ${log.text}`);
     },
